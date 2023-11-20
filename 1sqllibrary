@@ -2,9 +2,12 @@
 BOOK (Book_ISBN [PK], Title[Not Null], Publisher_ Name, price[Check Price>0],
 Date_Of_Publication,Book_Copy ),
 BOOK_AUTHORS (Book_ISBN [PK,FK]Author_Name [PK], Author_City)
+
 Solve the following
+
 CREATE DATABASE Library;
 USE Library;
+
 -- Create BOOK Table
 CREATE TABLE BOOK (
 Book_ISBN VARCHAR(255) PRIMARY KEY,
@@ -14,6 +17,7 @@ Price DECIMAL(10, 2) CHECK (Price > 0),
 Date_Of_Publication DATE,
 Book_Copy INT
 );
+
 -- Create BOOK_AUTHORS Table
 CREATE TABLE BOOK_AUTHORS (
 Book_ISBN VARCHAR(255),
@@ -22,6 +26,7 @@ Author_City VARCHAR(255),
 PRIMARY KEY (Book_ISBN, Author_Name),
 FOREIGN KEY (Book_ISBN) REFERENCES BOOK(Book_ISBN)
 );
+
 -- Insert records into BOOK Table
 INSERT INTO BOOK VALUES
 ('ISBN1', 'Book1', 'Publisher1', 15.99, '2022-01-01', 20),
@@ -29,6 +34,7 @@ INSERT INTO BOOK VALUES
 ('ISBN3', 'Book3', 'Publisher1', 25.00, '2020-08-20', 30),
 ('ISBN4', 'Book4', 'Publisher3', 18.75, '2019-03-10', 12),
 ('ISBN5', 'Book5', 'Publisher2', 10.50, '2018-12-05', 18);
+
 -- Insert records into BOOK_AUTHORS Table
 INSERT INTO BOOK_AUTHORS VALUES
 ('ISBN1', 'Author1', 'City1'),
@@ -36,29 +42,38 @@ INSERT INTO BOOK_AUTHORS VALUES
 ('ISBN2', 'Author3', 'City3'),
 ('ISBN3', 'Author4', 'City4'),
 ('ISBN4', 'Author5', 'City5');
+
 a) Create view BOOK_AUTHOR_INFO consisting Book_ISBN, Title from
 BOOK Table and Author_Name from BOOK_AUTHORS Table in
 ascending order of ISBN no.
+
 CREATE VIEW BOOK_AUTHOR_INFO AS
 SELECT b.Book_ISBN, b.Title, ba.Author_Name
 FROM BOOK b
 JOIN BOOK_AUTHORS ba ON b.Book_ISBN = ba.Book_ISBN
 ORDER BY b.Book_ISBN ASC;
+
 b) Create an index on Book_Author on table on attribute “Author_Name”.
+
 CREATE INDEX idx_Author_Name ON BOOK_AUTHORS (Author_Name);
+
 c) Create table Book_Auto_Increment (BookID int Auto_increament=100, Book
 Name) insert five records in table.
 CREATE TABLE Book_Auto_Increment (
 BookID INT AUTO_INCREMENT PRIMARY KEY,
 Book_Name VARCHAR(255)
 );
+
 -- Insert five records with automatic increment starting from 100
+
 INSERT INTO Book_Auto_Increment (Book_Name) VALUES ('BookA'),
 ('BookB'), ('BookC'), ('BookD'), ('BookE');
+
 d) Delete the book from Book table written by Author ‘Korth’.
 DELETE FROM BOOK
 WHERE Book_ISBN IN (SELECT Book_ISBN FROM BOOK_AUTHORS
 WHERE Author_Name = 'Korth');
+
 e) Select Book Names from table Book whose copies are in between 10 to 15.
 SELECT Title
 FROM BOOK
