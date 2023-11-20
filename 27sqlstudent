@@ -1,0 +1,46 @@
+27. Create a table named STUDENT with the following fields : 20 (FIRST NAME, MIDDLE NAME, LAST
+NAME, STUDENT_ENRLNO, DATE_OF_BIRTH, CLASS, SECTION, GENDER, YEAR_OF JOIN,
+ADMISSION_NO, ADDRESS1, ADDRESS2, CITY, STATE, RESPHONE, PIN_CODE)
+CREATE TABLE STUDENT (
+FIRST_NAME VARCHAR(255),
+MIDDLE_NAME VARCHAR(255),
+LAST_NAME VARCHAR(255),
+STUDENT_ENRLNO INT PRIMARY KEY,
+DATE_OF_BIRTH DATE,
+CLASS INT,
+SECTION CHAR(1),
+GENDER CHAR(1),
+YEAR_OF_JOIN INT,
+ADMISSION_NO INT,
+ADDRESS1 VARCHAR(255),
+ADDRESS2 VARCHAR(255),
+CITY VARCHAR(255),
+STATE VARCHAR(255),
+RESPHONE VARCHAR(20),
+PIN_CODE VARCHAR(10)
+);
+-- Insert record 1
+INSERT INTO STUDENT VALUES ('John', 'Doe', 'Smith', 1001, '2005-05-15', 6, 'A', 'M', 2000, 101, '123
+Main St', 'Apt 45', 'City1', 'State1', '123-456-7890', '12345');
+-- Insert record 2
+INSERT INTO STUDENT VALUES ('Alice', 'Mae', 'Johnson', 1002, '2006-03-20', 6, 'A', 'F', 2001, 102,
+'456 Oak St', 'Suite 12', 'City2', 'State2', '987-654-3210', '67890');
+-- Insert record 3
+INSERT INTO STUDENT VALUES ('Robert', 'Lee', 'Clark', 1003, '2005-08-10', 7, 'B', 'M', 2000, 103, '789
+Pine St', 'Unit 78', 'City1', 'State1', '234-567-8901', '34567');
+-- Insert record 4
+INSERT INTO STUDENT VALUES ('Anna', 'Rose', 'Taylor', 1004, '2006-01-25', 6, 'A', 'F', 2000, 104, '101
+Elm St', 'Apt 34', 'City2', 'State2', '876-543-2109', '45678');
+-- Insert record 5
+INSERT INTO STUDENT VALUES ('Daniel', 'Patrick', 'Williams', 1005, '2007-04-05', 7, 'A', 'M', 2001,
+105, '222 Maple St', 'Unit 56', 'City1', 'State1', '345-678-9012', '56789');
+(a) Display all the list of students who are in class - 6, section - A.
+SELECT * FROM STUDENT WHERE CLASS = 6 AND SECTION = 'A';
+(b) To display all the students list whose first name starts with "A".
+SELECT * FROM STUDENT WHERE FIRST_NAME LIKE 'A%';
+(c) To display all the students list who are girls.
+SELECT * FROM STUDENT WHERE GENDER = 'F';
+(d) To display all the students whose YEAR-OF-JOIN is 2000.
+SELECT * FROM STUDENT WHERE YEAR_OF_JOIN = 2000;
+(e) Sort the records of students with respect to their ADMISSION_NO, in ascending order.
+SELECT * FROM STUDENT ORDER BY ADMISSION_NO ASC;
