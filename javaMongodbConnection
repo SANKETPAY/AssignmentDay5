@@ -1,0 +1,75 @@
+Assignment Group C: Mini Project: Database Project Lifecycle
+Aim: To study Connectivity with MongoDB CRUD operation using Java.
+Problem Statement: Design an application using Mongodb and Java for above database
+mentioned in Assignment 5. Implement basic CRUD Operations.
+import com.mongodb.*;
+public class javaMongoDemo
+{
+public static void main(String[]args)
+{
+try
+{
+MongoClient mongo1=new MongoClient("localhost",27017);
+DB db=mongo1.getDB("SVPM");
+DBCollection coll=db.createCollection("Employee",null);
+BasicDBObject doc1=new BasicDBObject("name","John");
+doc1.append("id",12);
+coll.insert(doc1);
+BasicDBObject doc2=new BasicDBObject("name","Sayali");
+doc2.append("id",13);
+coll.insert(doc2);
+BasicDBObject doc3=new BasicDBObject("name","Payal");
+doc3.append("id",14);
+coll.insert(doc3);
+DBCursor cur1=coll.find();
+while(cur1.hasNext())
+{
+System.out.println(cur1.next());
+}
+}
+catch(Exception e)
+{
+e.printStackTrace();
+}
+}
+}
+Compilation Command
+javac -cp .:mongo-java-driver-3.12.14.jar javaMongoDemo.java
+java -cp .:mongo-java-driver-3.12.14.jar javaMongoDemo
+student@comp-ThinkCentre-M920q:~$ javac -cp .:mongo-java-driver-3.12.14.jar
+javaMongoDemo.java
+Note: javaMongoDemo.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+student@comp-ThinkCentre-M920q:~$ java -cp .:mongo-java-driver-3.12.14.jar javaMongoDemo
+Oct 31, 2023 3:49:29 PM com.mongodb.diagnostics.logging.JULLogger log
+INFO: Cluster created with settings {hosts=[localhost:27017], mode=SINGLE,
+requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=500}
+Oct 31, 2023 3:49:29 PM com.mongodb.diagnostics.logging.JULLogger log
+INFO: Cluster description not yet available. Waiting for 30000 ms before timing out
+Oct 31, 2023 3:49:29 PM com.mongodb.diagnostics.logging.JULLogger log
+INFO: Opened connection [connectionId{localValue:1, serverValue:9}] to localhost:27017
+Oct 31, 2023 3:49:29 PM com.mongodb.diagnostics.logging.JULLogger log
+INFO: Monitor thread successfully connected to server with description
+ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true,
+version=ServerVersion{versionList=[3, 6, 8]}, minWireVersion=0, maxWireVersion=6,
+maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30,
+roundTripTimeNanos=2464911}
+Oct 31, 2023 3:49:29 PM com.mongodb.diagnostics.logging.JULLogger log
+INFO: Opened connection [connectionId{localValue:2, serverValue:10}] to localhost:27017
+{"_id": {"$oid": "6540c888b7d49f4f8fe2a15d"}, "name": "John"}
+{"_id": {"$oid": "6540ce8cf0be0845bb23c854"}, "name": "John", "_id1": 12}
+{"_id": {"$oid": "6540d450581ebd6f3c71470c"}, "name": "John", "_id1": 12}
+{"_id": {"$oid": "6540d4b121085476a45c40cd"}, "name": "John", "id": 12}
+{"_id": {"$oid": "6540d4b121085476a45c40ce"}, "name": "Sayali", "id": 13}
+{"_id": {"$oid": "6540d4b121085476a45c40cf"}, "name": "Payal", "id": 13}
+Mongo Terminal
+> use SVPM;
+switched to db SVPM
+> db.Employee.find();
+{ "_id" : ObjectId("6540c888b7d49f4f8fe2a15d"), "name" : "John" }
+{ "_id" : ObjectId("6540ce8cf0be0845bb23c854"), "name" : "John", "_id1" : 12 }
+{ "_id" : ObjectId("6540d450581ebd6f3c71470c"), "name" : "John", "_id1" : 12 }
+{ "_id" : ObjectId("6540d4b121085476a45c40cd"), "name" : "John", "id" : 12 }
+{ "_id" : ObjectId("6540d4b121085476a45c40ce"), "name" : "Sayali", "id" : 13 }
+{ "_id" : ObjectId("6540d4b121085476a45c40cf"), "name" : "Payal", "id" : 13 }
+> db.Employee.find();
