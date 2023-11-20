@@ -1,0 +1,78 @@
+10. Write a PL/SQL block of code for the following requirements:-
+Schema:
+Borrower(Rollin, Name, DateofIssue, NameofBook, Status)
+Fine(Roll_no, Date, Amt)
+a. Accept roll_no & name of book from user.
+b. Check the number of days (from date of issue), if days are between 15 to
+30 then fine amount will be Rs 5per day.
+c. If no. of days>30, per day fine will be Rs 50 per day & for days less than
+30, Rs. 5 per day.
+d. After submitting the book, status will change from I to R.
+e. If condition of fine is true, then details will be stored into fine table.
+SQL> create table B_1(roll_no number,name varchar2(50),dateofissue
+date,nameofbook varchar2(100),status varchar2(1));
+Table created.
+SQL> create table F_1(roll_no number,F_1date date,amt number);
+Table created.
+SQL> insert into B_1 values(101,'mugdha',to_date('1-10-2022','MM-DD-
+YYYY'),'dbms','I');
+1 row created.
+SQL> insert into B_1 values(102,'vaibhavi',to_date('15-10-2022','MM-DD-
+YYYY'),'oop',I);
+1 row created.
+SQL> insert into B_1 values(103,'harshada',to_date('24-9-2022','MM-DD-
+YYYY'),'dsa',I);
+1 row created.
+SQL> insert into B_1 values(104,'shweta',to_date('26-8-2022','MM-DD-
+YYYY'),'cns',I);
+1 row created.
+SQL> select*from B_1;
+SQL> select*from B_1;
+ROLL_NO NAME DATEOFISSUE NAME_OF_BOOK STATUS
+--------------- ------------- -------------- ------------------- ------------
+-
+101 mugdha 1-10-22 dbms I
+102 vaibhavi 15-10-22 oop I
+103 harshada 24-9-23 dsa I
+104 shweta 26-9-23 cns I
+SQL>DECLARE
+i_roll_no NUMBER;
+name_of_book VARCHAR2(25);
+no_of_days NUMBER;
+return_date DATE := TO_DATE(SYSDATE,'MM-DD-YYYY');
+temp NUMBER;
+doi DATE;
+fine NUMBER;
+BEGIN
+i_roll_no := :i_roll_no;
+name_of_book := :nameofbook;
+dbms_output.put_line(return_date);
+SELECT to_date(B_1.dateofissue,'MM-DD-YYYY') INTO doi FROM B_1 WHERE
+B_1.roll_no = i_roll_no AND B_1.name_of_book = name_of_book;
+no_of_days := return_date-doi;
+dbms_output.put_line( no_of_days);
+IF (no_of_days >15 AND no_of_days <=30) THEN
+fine := 5*no_of_days;
+ELSIF (no_of_days>30 ) THEN
+temp := no_of_days-30;
+fine := 150 + temp*50;
+END IF;
+dbms_output.put_line(fine);I
+NSERT INTO F_1 VALUES(i_roll_no,return_date,fine);
+UPDATE B_1 SET status = 'R' WHERE B_1.roll_no = i_roll_no;
+END;
+/
+SQL>select * from F_1;
+ROLL_NO DATE_OF_RETURN AMT
+--------------- ---------------------------- ----------
+101 17-10-22 80
+102 17-10-22 -
+103 17-10-22 115
+104 17-10-22 1250
+SQL>select * from B_1;
+ROLL_NO NAME DATEOFISSUE NAME_OF_BOOK STATUS
+--------------- ------------- -------------- ------------------- ------------
+101 mugdha 1-10-22 dbms R
+102 vaibhavi 15-10-22 oop R
+103 harshada 24-9-23 dsa R
+104 shweta 26-9-23 cns R
