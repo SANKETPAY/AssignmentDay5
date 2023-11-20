@@ -1,0 +1,44 @@
+19.Create a collection named rating that contain 5 documents of the following prototype and
+solve the following Queries.
+{
+movie_id: 123,
+user_id: 12,
+title: Toy Story(1995),
+status: 'A'
+}
+a) Creating an index on movie_id and sorts the keys in the index in ascending order.
+Verify the query plan
+b) Show various indexes created on movie collection.
+c) Sort movie_id in descending order.
+d) Create a descending order index on movie_id to get ratings related to “Toy Story
+(1995)” verify the query plan.
+e) Limit the number of items in the result of above query.
+// Use your MongoDB database and collection names
+use your_database_name;
+// Create the "rating" collection
+db.createCollection("rating");
+// Insert 5 documents into the "rating" collection
+db.rating.insert([
+{
+movie_id: 123,
+user_id: 12,
+title: "Toy Story (1995)",
+status: 'A'
+},
+// Insert other documents similarly
+// ...
+]);
+// Create an index on movie_id
+db.rating.createIndex({ movie_id: 1 });
+// Verify the query plan
+db.rating.find().sort({ movie_id: 1 }).explain("executionStats");
+// Show indexes on the "rating" collection
+db.rating.getIndexes();
+// Sort movie_id in descending order
+db.rating.find().sort({ movie_id: -1 });
+// Create a descending order index on movie_id
+db.rating.createIndex({ movie_id: -1 });
+// Verify the query plan for "Toy Story (1995)"
+db.rating.find({ title: "Toy Story (1995)" }).sort({ movie_id: -1 }).explain("executionStats");
+// Limit the number of items in the result
+db.rating.find({ title: "Toy Story (1995)" }).sort({ movie_id: -1 }).limit(5);
