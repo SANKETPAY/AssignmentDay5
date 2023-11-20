@@ -1,0 +1,59 @@
+7.Write a PL/SQL block of code using parameterized Cursor that will merge the
+data availablein
+the newly created table N_RollCall with the data available in the table
+O_RollCall. If the data in the first table already exist in the second table then
+that data should be skipped.
+Input :
+SQL>CREATE TABLE N_RollCall ( STUDENT_ID NUMBER,
+STUDENT_NAME VARCHAR2(50), ROLLCALL_DATE
+DATE,ROLLCALL_STATUS CHAR(1));
+Table created.
+//insert 5 records
+SQL>INSERT INTO N_RollCall VALUES (1, 'shweta', TO_DATE('17-OCT-23',
+'DD-MON-RR'), 'P');
+1 row created.
+SQL> select*from N_RollCall;
+SQL> CREATE TABLE O_RollCall (
+2 ROLLCALL_DATE DATE,
+3 STUDENT_NAME VARCHAR2(50)
+4 );
+Table created.
+SQL> INSERT INTO O_RollCall VALUES (TO_DATE('17-OCT-23', 'DD-MON-
+RR'), 'shweta');
+1 row created.
+SQL> select*from O_RollCall;
+1 DECLARE
+2 v_roll N_RollCall.ROLLCALL_DATE%TYPE;
+3 v_name N_RollCall.STUDENT_NAME%TYPE;
+4 v_exists BOOLEAN := FALSE;
+5 CURSOR c_merge_data IS
+6 SELECT ROLLCALL_DATE, STUDENT_NAME
+7 FROM N_RollCall;
+8 BEGIN
+10 FOR n_record IN c_merge_data LOOP
+11 v_roll := n_record.ROLLCALL_DATE;
+12 v_name := n_record.STUDENT_NAME;
+14 FOR o_record IN (SELECT ROLLCALL_DATE FROM O_RollCall
+WHERE ROLLCALL_DATE = v_roll) LOOP
+15 v_exists := TRUE;
+16 END LOOP;
+18 IF NOT v_exists THEN
+19 INSERT INTO O_RollCall (ROLLCALL_DATE, STUDENT_NAME)
+20 VALUES (v_roll, v_name);
+21 COMMIT;
+22 END IF;
+23 v_exists := FALSE;
+24 END LOOP;
+25 DBMS_OUTPUT.PUT_LINE('Data merged successfully.');
+26* END;
+SQL> /
+PL/SQL procedure successfully completed.
+SQL> select*from O_RollCall;
+ROLLCALL_Date STUDENT_NAME
+--------- --------------------------------------------------
+17-OCT-23 shweta
+15-OCT-23 mugdha
+15-OCT-23sudha
+15-OCT-23 rashami
+14-OCT-23 vaibhavi
+13-OCT-23 ravi
