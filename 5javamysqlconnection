@@ -1,0 +1,88 @@
+1. Aim : Implement MYSQL/Oracle database connectivity with PHP/ python/Java
+Implement Database navigation operations (add, delete, edit,) using ODBC/JDBC.
+Java Mysql Connection Program
+import java.sql.*;
+class DBConnect
+{
+DBConnect()
+{
+Statement s;
+Connection c;
+try
+{
+Class.forName("com.mysql.jdbc.Driver");
+c=DriverManager.getConnection("jdbc:mysql://localhost/svpm","root","admin123");
+s=c.createStatement();
+s.execute("create table student(name varchar(20),surname varchar(20),city varchar(20))");
+System.out.println("Table created");
+c.close();
+}
+catch(Exception e)
+{
+e.printStackTrace();
+}
+}
+public static void main(String args[])
+{
+DBConnect x=new DBConnect();
+}
+}
+Connecting with mysql database
+1:- Create DB "svpm" in mysql db.
+2:- Go to your java folder where you will store your program.
+3:- Store your program in that folder and save using .java extension.Copy the code and save.
+4:- Set class path to make sure your java program run smoothly.
+5:- Store mysql-connector in the same folder. Download link is in Discription.
+6:- Use the following command to run your java file.
+--> javac -cp mysql-connector-java-5.1.49-bin.jar;. DBConnect.java
+--> java -cp mysql-connector-java-5.1.49-bin.jar;. DBConnect
+---> java -cp .:mysql-connector-j-8.1.0.jar DBConnect
+So table is created that means connection to db is successful.
+Inserting Values (ADD)
+import java.sql.*;
+class InsertValues{
+public static void main(String args[]){
+try{
+Class.forName("com.mysql.jdbc.Driver");
+Connection
+con=DriverManager.getConnection("jdbc:mysql://localhost:3306/svpm",useSSL=true);
+PreparedStatement stmt=con.prepareStatement("insert into student
+values(?,?,?)"); //? is replaced by the below statement values and then will be stored into the table...
+stmt.setString(1,"John"); // 1
+indicates the column one value to be inserted...
+stmt.setString(2,"John"); // 2 indicates the column two value to be
+inserted...
+stmt.setString(3,"PUne"); // 3 indicates the column three
+value to be inserted...
+int i=stmt.executeUpdate();
+System.out.println("----------------------------------------------------------------
+-------------------------");
+System.out.println(i+" Record inserted..........");
+con.close(); //closing the db connection...
+}
+catch(Exception e){
+System.out.println(e);
+}
+}
+}
+import java.sql.*;
+class TableData{
+public static void main(String args[]){
+try{
+Class.forName("com.mysql.jdbc.Driver");
+Connection
+con=DriverManager.getConnection("jdbc:mysql://localhost:3306/Employee","root","root");
+//here Employee is database name, root is username and password for
+mysql database... you can use whatever you've entered at the time of installation of mysql server.
+Statement stmt=con.createStatement();
+ResultSet rs=stmt.executeQuery("select * from emp");
+System.out.println("*******************Displaying values inside emp
+table*******************");
+while(rs.next())
+System.out.println(rs.getInt(1)+" "+rs.getString(2)+" "+rs.getString(3));
+con.close();
+}
+catch(Exception e)
+{ System.out.println(e);}
+}
+}
