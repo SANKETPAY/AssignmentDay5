@@ -1,0 +1,56 @@
+3.For the given Library database
+BOOK (Book_ISBN [PK], Title[Not Null], Publisher_ Name, price[Check Price>0],
+Date_Of_Publication,Book_Copy ),
+BOOK_AUTHORS (Book_ISBN [PK,FK]Author_Name [PK], Author_City)
+-- Create the Library Database
+CREATE DATABASE Library;
+-- Use the Library Database
+USE Library;
+CREATE TABLE BOOK (
+Book_ISBN VARCHAR(50) PRIMARY KEY,
+Title VARCHAR(255) NOT NULL,
+Publisher_Name VARCHAR(255),
+Price DECIMAL(10, 2) CHECK (Price > 0),
+Date_Of_Publication DATE,
+Book_Copy INT
+);
+CREATE TABLE BOOK_AUTHORS (
+Book_ISBN VARCHAR(50),
+Author_Name VARCHAR(255),
+Author_City VARCHAR(255),
+PRIMARY KEY (Book_ISBN, Author_Name),
+FOREIGN KEY (Book_ISBN) REFERENCES BOOK(Book_ISBN)
+);
+-- Insert record 1
+INSERT INTO BOOK VALUES ('ISBN001', 'Book1', 'Publisher1', 15.99, '2022-01-15', 20);
+INSERT INTO BOOK_AUTHORS VALUES ('ISBN001', 'Author1', 'City1');
+Solve the following
+i) Display name of publishers as per no of books published by them in
+ascending order.
+SELECT Publisher_Name, COUNT(*) AS No_of_Books
+FROM BOOK
+GROUP BY Publisher_Name
+ORDER BY No_of_Books ASC;
+ii) Get publisher names who published at least one book written by author
+name like ‘K%’.
+SELECT DISTINCT b.Publisher_Name
+FROM BOOK b
+INNER JOIN BOOK_AUTHORS ba ON b.Book_ISBN = ba.Book_ISBN
+WHERE ba.Author_Name LIKE 'K%';
+iii) Get book name and Authors names where book written by maximum
+authors.
+SELECT b.Title, GROUP_CONCAT(ba.Author_Name) AS Authors
+FROM BOOK b
+INNER JOIN BOOK_AUTHORS ba ON b.Book_ISBN = ba.Book_ISBN
+GROUP BY b.Book_ISBN, b.Title
+ORDER BY COUNT(ba.Author_Name) DESC
+LIMIT 1;
+iv) Get publisher names accordingly books published alphabetically
+SELECT Publisher_Name
+FROM BOOK
+GROUP BY Publisher_Name
+ORDER BY Publisher_Name ASC;
+v)Find the no of books published in 01 Jan 2014 to till date.
+SELECT COUNT(*) AS No_of_Books
+FROM BOOK
+WHERE Date_Of_Publication >= '2014-01-01';
