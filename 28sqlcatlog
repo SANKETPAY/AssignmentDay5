@@ -1,0 +1,38 @@
+28. Create the following table CATALOG with the following fields : (BOOK ID, BOOK TITLE,
+AUTHOR, AUTHOR_ID, PUBLISHER_ID, CATEGORY_ID, YEAR, ISBN, PRICE)
+CREATE TABLE CATALOG (
+BOOK_ID INT PRIMARY KEY,
+BOOK_TITLE VARCHAR(255),
+AUTHOR VARCHAR(255),
+AUTHOR_ID VARCHAR(10),
+PUBLISHER_ID VARCHAR(20),
+CATEGORY_ID VARCHAR(20),
+YEAR INT,
+ISBN VARCHAR(20),
+PRICE DECIMAL(10, 2)
+);
+-- Insert record 1
+INSERT INTO CATALOG VALUES (1, 'Book1', 'Author1', 123, 'Tata McGraw-Hill', 'COMPUTERS', 2013,
+'ABC123', 1200.50);
+-- Insert record 2
+INSERT INTO CATALOG VALUES (2, 'Book2', 'Author2', 456, 'Random Publisher', 'COMPUTERS', 2013,
+'DEF456', 1500.00);
+-- Insert record 3
+INSERT INTO CATALOG VALUES (3, 'Book3', 'Author1', 123, 'Tata McGraw-Hill', 'MATH', 2015,
+'GHI789', 800.00);
+-- Insert record 4
+INSERT INTO CATALOG VALUES (4, 'Book4', 'Author3', 789, 'Another Publisher', 'COMPUTERS', 2016,
+'JKL012', 1100.75);
+-- Insert record 5
+INSERT INTO CATALOG VALUES (5, 'Book5', 'Author2', 456, 'Random Publisher', 'PHYSICS', 2013,
+'MNO345', 950.25);
+(a) To display all the books of the CATEGORY_ID : "COMPUTERS".
+SELECT * FROM CATALOG WHERE CATEGORY_ID = 'COMPUTERS';
+(b) List all the books whose PRICE is greater than or equal to 1000/-.
+SELECT * FROM CATALOG WHERE PRICE >= 1000;
+(c) List all the books whose PUBLISHER_ID is "Tata McGraw-Hill".
+SELECT * FROM CATALOG WHERE PUBLISHER_ID = 'Tata McGraw-Hill';
+(d) List all the books whose YEAR of publication is 2013.
+SELECT * FROM CATALOG WHERE YEAR = 2013;
+(e) List all the BOOK_TITLEs whose AUTHOR_ID is "123".
+SELECT BOOK_TITLE FROM CATALOG WHERE AUTHOR_ID = 123;
