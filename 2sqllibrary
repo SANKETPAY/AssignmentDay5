@@ -1,11 +1,14 @@
 2. For the given Library database
 BOOK (Book_ISBN [PK], Title[Not Null], Publisher_ Name, price[Check Price>0],
 Date_Of_Publication,Book_Copy ),
-BOOK_AUTHORS (Book_ISBN [PK,FK]Author_Name [PK], Author_City)
+BOOK_AUTHORS (Book_ISBN [PK,FK]Author_Name [PK], Author_City
+
 -- Create the Library Database
 CREATE DATABASE Library;
+
 -- Use the Library Database
 USE Library;
+
 CREATE TABLE BOOK (
 Book_ISBN VARCHAR(50) PRIMARY KEY,
 Title VARCHAR(255) NOT NULL,
@@ -14,6 +17,7 @@ Price DECIMAL(10, 2) CHECK (Price > 0),
 Date_Of_Publication DATE,
 Book_Copy INT
 );
+
 CREATE TABLE BOOK_AUTHORS (
 Book_ISBN VARCHAR(50),
 Author_Name VARCHAR(255),
@@ -21,6 +25,7 @@ Author_City VARCHAR(255),
 PRIMARY KEY (Book_ISBN, Author_Name),
 FOREIGN KEY (Book_ISBN) REFERENCES BOOK(Book_ISBN)
 );
+
 -- Insert record 1
 INSERT INTO BOOK VALUES ('ISBN001', 'Book1', 'Publisher1', 15.99, '2022-01-15', 20);
 INSERT INTO BOOK_AUTHORS VALUES ('ISBN001', 'Author1', 'City1');
@@ -36,30 +41,41 @@ INSERT INTO BOOK_AUTHORS VALUES ('ISBN004', 'Author4', 'City4');
 -- Insert record 5
 INSERT INTO BOOK VALUES ('ISBN005', 'Book5', 'Publisher5', 22.00, '2022-04-05', 10);
 INSERT INTO BOOK_AUTHORS VALUES ('ISBN005', 'Author5', 'City5');
+
 Solve the following :
+
 a) Select Book_ISBN, Title, Author_Name from relations Book and
 Book_Authors INNER JOIN on attribute Book_ISBN.
+
 SELECT b.Book_ISBN, b.Title, ba.Author_Name
 FROM BOOK b
 INNER JOIN BOOK_AUTHORS ba ON b.Book_ISBN = ba.Book_ISBN;
+
 b) Select Book_ISBN, Title, Publisher, Author_Name from relations Book and
 Book_Authors LEFT OUTER JOIN on attribute Book_ISBN.
+
 SELECT b.Book_ISBN, b.Title, b.Publisher_Name, ba.Author_Name
 FROM BOOK b
 LEFT JOIN BOOK_AUTHORS ba ON b.Book_ISBN = ba.Book_ISBN;
+
 c) Select Book_ISBN, Title, Publisher, Author_Name from relations Book and
 Book_Authors RIGHT OUTER JOIN on attribute Book_ISBN.
+
 SELECT b.Book_ISBN, b.Title, b.Publisher_Name, ba.Author_Name
 FROM BOOK b
 RIGHT JOIN BOOK_AUTHORS ba ON b.Book_ISBN = ba.Book_ISBN;
+
 d) Select Book_ISBN, Title from relation Book whose author is living in City
 =’Pune’.
+
 SELECT b.Book_ISBN, b.Title
 FROM BOOK b
 INNER JOIN BOOK_AUTHORS ba ON b.Book_ISBN = ba.Book_ISBN
 WHERE ba.Author_City = 'Pune';
+
 e) Select Book_ISBN, Title from relation Book, which written by more than 2
 Authors.
+
 SELECT b.Book_ISBN, b.Title FROM BOOK b
 INNER JOIN BOOK_AUTHORS ba ON b.Book_ISBN = ba.Book_ISBN
 GROUP BY b.Book_ISBN, b.Title
