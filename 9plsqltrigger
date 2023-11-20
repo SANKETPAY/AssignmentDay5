@@ -1,0 +1,54 @@
+9.Statement:Database Trigger (All Types: Row level and Statement level triggers, Before and After
+Triggers).Write a database trigger on Library table. The System should keep track of the records that
+are being updated or deleted. The old value of updated or deleted records should be added
+inLibrary_Audit table.Triggers in line with above statement.
+SQL> CREATE TABLE Library (BookID INT PRIMARY KEY, Title VARCHAR(255), Author
+VARCHAR(255),PublishedYear INT );
+Table created.
+SQL> CREATE TABLE Library_Audit ( AuditID INT PRIMARY KEY,BookID INT,Title VARCHAR(255),Author
+VARCHAR(255), PublishedYear INT, Action VARCHAR(10), ChangeDate DATE);
+Table created.
+SQL> INSERT INTO Library VALUES (1, 'Sample Book 1', 'Author 1', 2020);
+1 row created.
+SQL> INSERT INTO Library VALUES (2, 'Sample Book 2', 'Author 2', 2018);
+1 row created.
+SQL> select*from Library;
+------------------------------------------------------------------------------
+BOOKID | TITLE | AUTHOR | PUBLISHEDYEAR
+---------------------------------------------------------------------------------
+1 Sample Book1 Author 2020
+2 Sample Book 2 Author 2 2018
+SQL> ed
+Wrote file afiedt.buf
+1CREATE OR REPLACE TRIGGER Library_Audit_Trigger
+2AFTER DELETE OR UPDATE ON Library
+3FOR EACH ROW
+4BEGIN
+5 IF UPDATING THEN
+6 INSERT INTO Library_Audit (AuditID, BookID, Title, Author, PublishedYear, Action, ChangeDate)
+7 VALUES
+(Library_Audit_Sequence.NEXTVAL, :OLD.BookID, :OLD.Title, :OLD.Author, :OLD.PublishedYear, 'UPDATE',
+SYSTIMESTAMP);
+8 END IF;
+9 IF DELETING THEN
+10 INSERT INTO Library_Audit (AuditID, BookID, Title, Author, PublishedYear, Action, ChangeDate)
+12 VALUES
+(Library_Audit_Sequence.NEXTVAL, :OLD.BookID, :OLD.Title, :OLD.Author, :OLD.PublishedYear, 'DELETE',
+SYSTIMESTAMP);
+13 END IF;
+14* END;
+15 /
+Trigger created.
+SQL> UPDATE Library
+2 SET Title = 'Updated Book Title'
+3 WHERE BookID = 1;
+1 row updated.
+SQL> DELETE FROM Library
+2 WHERE BookID = 2;
+1 row deleted.
+SQL> select*from Library_Audit;
+-----------------------------------------------------------------------------------------------------------------------
+AUDITID | BOOKID TITLE | AUTHOR | PUBLISHEDYEAR ACTION | CHANGEDATE|
+------------------------------------------------------------------------------------------------------------------------
+1 1 Sample Book 1 Author 1 2020 UPDATE 19-OCT-23
+2 2 Sample Book 2 Author 2 2018 DELETE 19-OCT-23
