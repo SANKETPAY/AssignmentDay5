@@ -1,0 +1,62 @@
+6. For the given Employee database
+EmployeeInfo(EmpID[PK],EmpFname,EmpLname,Department,Project,Address,DOB,Gende
+r)
+EmployeePosition(EmpID[FK],EmpPosition,DateOfJoining,Salary)
+-- Create the Employee Database
+CREATE DATABASE EmployeeDB;
+-- Use the Employee Database
+USE EmployeeDB;
+-- Create the "EmployeeInfo" Table
+CREATE TABLE EmployeeInfo (
+EmpID INT PRIMARY KEY,
+EmpFname VARCHAR(255),
+EmpLname VARCHAR(255),
+Department VARCHAR(50),
+Project VARCHAR(50),
+Address VARCHAR(255),
+DOB DATE,
+Gender CHAR(1)
+);
+-- Create the "EmployeePosition" Table
+CREATE TABLE EmployeePosition (
+EmpID INT PRIMARY KEY,
+EmpPosition VARCHAR(50),
+DateOfJoining DATE,
+Salary DECIMAL(10, 2),
+FOREIGN KEY (EmpID) REFERENCES EmployeeInfo(EmpID)
+);
+-- Insert record 1
+INSERT INTO EmployeeInfo VALUES (1, 'John', 'Doe', 'HR', 'ProjectA', '123 Main St',
+'1990-05-15', 'M');
+INSERT INTO EmployeePosition VALUES (1, 'Manager', '2010-01-15', 75000.00);
+-- Insert record 2
+INSERT INTO EmployeeInfo VALUES (2, 'Alice', 'Smith', 'IT', 'ProjectB', '456 Oak St',
+'1988-09-22', 'F');
+INSERT INTO EmployeePosition VALUES (2, 'Developer', '2012-03-20', 90000.00);
+-- Insert record 3
+INSERT INTO EmployeeInfo VALUES (3, 'Bob', 'Johnson', 'HR', 'ProjectA', '789 Elm St',
+'1995-11-10', 'M');
+INSERT INTO EmployeePosition VALUES (3, 'HR Specialist', '2014-08-05', 60000.00);
+i. Write a query to fetch the EmpFname from the EmployeeInfo table in
+the upper case and use the ALIAS name as EmpName.
+SELECT UPPER(EmpFname) AS EmpName
+FROM EmployeeInfo;
+ii. Write a query to fetch the number of employees working in the
+department ‘HR’.
+SELECT COUNT(*) AS NumberOfEmployees
+FROM EmployeeInfo
+WHERE Department = 'HR';
+iii. Write q query to find all the employees whose salary is between
+50000 to 100000
+SELECT *
+FROM EmployeeInfo ei
+JOIN EmployeePosition ep ON ei.EmpID = ep.EmpID
+WHERE ep.Salary BETWEEN 50000 AND 100000;
+iv. Write a query to find the names of employees that begin with ‘S’
+SELECT EmpFname FROM EmployeeInfo WHERE EmpFname LIKE
+'S%';
+v. Write a query to fetch top N records.
+SELECT TOP 2 *
+FROM EmployeeInfo;
+SELECT LIMIT 2 *
+FROM EmployeeInfo;
