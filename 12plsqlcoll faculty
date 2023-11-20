@@ -1,0 +1,45 @@
+12.Create The following two tables :
+College-info
+Faculty-info
+College-info consists of fields : college-code, college-name, address
+Faculty-info consists of fields : college-code, faculty-code, faculty-name,
+qualification, experience-in-no-of-years, address.
+The field college-code is foreign key.
+a. Design a form to accept the data from the user.
+b. Generate queries to do the following :
+c.List all those faculty members whose experience is greater than or equal
+to 10 years and have M. Tech degree.
+d. List all those faculty members, who have at least 10 years of experience
+but do not have M. Tech degree
+-- Create College-info table
+CREATE TABLE College_info (
+college_code NUMBER PRIMARY KEY,
+college_name VARCHAR2(50),
+address VARCHAR2(100)
+);
+-- Create Faculty-info table with college_code as a foreign key referencing College_info
+CREATE TABLE Faculty_info (
+college_code NUMBER,
+faculty_code NUMBER PRIMARY KEY,
+faculty_name VARCHAR2(50),
+qualification VARCHAR2(50),
+experience_in_years NUMBER,
+address VARCHAR2(100),
+FOREIGN KEY (college_code) REFERENCES College_info(college_code)
+);
+-- Sample data for College_info
+INSERT INTO College_info VALUES (1, 'ABC College', '123 Main Street, City');
+INSERT INTO College_info VALUES (2, 'XYZ College', '456 Oak Street, Town');
+-- Sample data for Faculty_info
+INSERT INTO Faculty_info VALUES (1, 101, 'John Doe', 'M. Tech', 12, '789 Elm Street, City');
+INSERT INTO Faculty_info VALUES (1, 102, 'Jane Smith', 'Ph.D.', 8, '456 Maple Street, City');
+INSERT INTO Faculty_info VALUES (2, 103, 'Bob Johnson', 'M. Tech', 15, '987 Pine Street, Town');
+INSERT INTO Faculty_info VALUES (2, 104, 'Alice Brown', 'B.E.', 11, '654 Birch Street, Town');
+-- Query to list faculty members with experience >= 10 years and M. Tech degree
+SELECT *
+FROM Faculty_info
+WHERE experience_in_years >= 10 AND qualification = 'M. Tech';
+-- Query to list faculty members with at least 10 years of experience but no M. Tech degree
+SELECT *
+FROM Faculty_info
+WHERE experience_in_years >= 10 AND qualification != 'M. Tech';
