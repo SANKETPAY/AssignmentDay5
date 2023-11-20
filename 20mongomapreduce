@@ -1,0 +1,46 @@
+20.Design a map-reduce operations on a collection “orders” that contains documents of the
+following prototype. Solve the following .
+{
+cust_id: "abc123",
+ord_date: new Date("Oct 04, 2012"),
+status: 'A',
+price: 25,
+gender :’F’,
+rating: 1
+}
+a) a) Count the number of female (F) and male (M) respondents in the orders collection
+b) Count the number of each type of rating (1, 2, 3, 4 or 5) for each orders
+var mapFunction = function() {
+emit(this.gender, 1);
+};
+**Reduce function:**
+```javascript
+var reduceFunction = function(key, values) {
+return Array.sum(values);
+};
+**Run the map-reduce operation:**
+```javascript
+var genderCount = db.orders.mapReduce(
+mapFunction,
+reduceFunction,
+{ out: "genderCount" }
+);
+// Query the result
+db.genderCount.find();
+var mapFunction = function() {
+emit(this.rating, 1);
+};
+**Reduce function:**
+```javascript
+var reduceFunction = function(key, values) {
+return Array.sum(values);
+};
+**Run the map-reduce operation:**
+```javascript
+var ratingCount = db.orders.mapReduce(
+mapFunction,
+reduceFunction,
+{ out: "ratingCount" }
+);
+// Query the result
+db.ratingCount.find();
