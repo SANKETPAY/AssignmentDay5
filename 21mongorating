@@ -1,0 +1,45 @@
+21. Create a collection named rating that contain 5 documents of the following prototype and
+solve the following Queries.
+{
+movie_id: 123,
+user_id: 12,
+title: Toy Story(1995),
+status: 'A'
+}
+a) Get ratings for the movie “ICE AGE(2005)” using the descending ordered index on
+movie_id and explain.
+b) Rebuild all indexes for the ratings collection.
+c) Drop index on rating collection.
+d) Create an index on movie_id and ratings fields together with movie_id (ascending order
+sorted) and rating (descending order sorted).
+e) Create a descending order index on movie_id to get ratings related to “Toy Story (1995)”
+verify the query plan.
+// Use your MongoDB database and collection names
+use your_database_name;
+// Create the "rating" collection
+db.createCollection("rating");
+// Insert 5 documents into the "rating" collection
+db.rating.insert([
+{
+movie_id: 123,
+user_id: 12,
+title: "Toy Story (1995)",
+status: 'A'
+},
+// Insert other documents similarly
+// ...
+]);
+// Create a descending order index on movie_id
+db.rating.createIndex({ movie_id: -1 });
+// Query ratings for the movie "ICE AGE (2005)" using the index and explain
+db.rating.find({ title: "ICE AGE (2005)" }).sort({ movie_id: -1 }).explain("executionStats");
+// Rebuild all indexes for the "ratings" collection
+db.rating.reIndex();
+// Drop the index on movie_id
+db.rating.dropIndex({ movie_id: -1 });
+// Create a compound index on movie_id and ratings
+db.rating.createIndex({ movie_id: 1, ratings: -1 });
+// Create a descending order index on movie_id
+db.rating.createIndex({ movie_id: -1 });
+// Verify the query plan for "Toy Story (1995)"
+db.rating.find({ title: "Toy Story (1995)" }).sort({ movie_id: -1 }).explain("executionStats");
