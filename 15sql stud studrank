@@ -1,0 +1,47 @@
+15.
+Create the following tables:
+Student (roll-no, marks, category, district, state)
+Student-rank(roll-no, marks, rank)
+(a) Create a form to accept the data from the user with appropriate validation
+checks.
+(b) Generate queries to do the following :
+(i) List all those students who have come from Tamilnadu state and secured a
+rank
+above 100.
+(ii) List all those students who come from Andhra Pradesh state and belong to
+given category who have secured a rank above 100
+-- Create Student table
+CREATE TABLE Student (
+roll_no NUMBER PRIMARY KEY,
+marks NUMBER,
+category VARCHAR2(50),
+district VARCHAR2(50),
+state VARCHAR2(50)
+);
+-- Create Student_rank table
+CREATE TABLE Student_rank (
+roll_no NUMBER PRIMARY KEY,
+marks NUMBER,
+rank NUMBER
+);
+-- Sample data for Student
+INSERT INTO Student VALUES (1, 85, 'General', 'District_A', 'Tamilnadu');
+INSERT INTO Student VALUES (2, 95, 'OBC', 'District_B', 'Andhra Pradesh');
+INSERT INTO Student VALUES (3, 105, 'SC', 'District_C', 'Tamilnadu');
+INSERT INTO Student VALUES (4, 120, 'General', 'District_D', 'Andhra Pradesh');
+-- Sample data for Student_rank
+INSERT INTO Student_rank VALUES (1, 85, 150);
+INSERT INTO Student_rank VALUES (2, 95, 80);
+INSERT INTO Student_rank VALUES (3, 105, 120);
+INSERT INTO Student_rank VALUES (4, 120, 30);
+-- (i) Query to list all those students from Tamilnadu with a rank above 100
+SELECT *
+FROM Student s
+JOIN Student_rank sr ON s.roll_no = sr.roll_no
+WHERE s.state = 'Tamilnadu' AND sr.rank > 100;
+-- (ii) Query to list all those students from Andhra Pradesh with a given category and rank
+above 100
+SELECT *
+FROM Student s
+JOIN Student_rank sr ON s.roll_no = sr.roll_no
+WHERE s.state = 'Andhra Pradesh' AND s.category = 'General' AND sr.rank > 100;
