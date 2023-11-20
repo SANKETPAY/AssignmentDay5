@@ -1,0 +1,158 @@
+Mongo DB
+16.Create a collection named Book. (book_isbn,title,punlisher_name,author(Name,
+Address, Phone No[landline, mobile]), publisher_city, price,copies)
+db.createCollection("Book")
+Add 5 documents in the collection with keys
+a. Give details of Books whose Publisher lives in “Pune”.
+test> db.Book.find({"publisher_city":"Pune"})
+[
+{
+_id: ObjectId("6558ae4984707bc21d864499"),
+book_isbn: 'ISBN002',
+title: 'The Amazing Journey',
+publisher_name: 'Pearson',
+author: {
+name: 'Sayali S',
+address: 'Jalgaon,Maharashtra',
+phone: { landline: '673-456-3545', mobile: '123-456-7890' }
+},
+publisher_city: 'Pune',
+price: 30,
+copies: 50
+}
+]
+b. Delete name Book from Book whose name start with “D”
+db.Book.deleteOne({ title: /^D/ })
+c. Change the city of publisher “Pearson” to “Pune”.
+db.Book.updateOne({ "publisher_name": "Pearson" }, { $set: { "publisher_city":
+"Pune" } })
+d. Find the details of publisher named “Pearson”.
+db.Book.findOne({ "publisher_name": "Pearson" })
+Insert 5 records
+test> db.Book.insertOne({book_isbn:"ISBN001",title:"The Great Gatsby",publisher_name:"Random
+House",author:{name:"F.Scott ",address:"123 Main St,Anytown",phone:{landline:"123-456-
+7890",mobile:"987-654-3210"}},publisher_city:"New York",price:20.99,copies:100})
+{
+acknowledged: true,
+insertedId: ObjectId("6558acad84707bc21d864498")
+}
+test> db.Book.insertOne({book_isbn:"ISBN002",title:"The Amazing
+Journey",publisher_name:"Pearson",author:{name:"Sayali
+S",address:"Jalgaon,Maharashtra",phone:{landline:"673-456-3545",mobile:"123-456-
+7890"}},publisher_city:"Pune",price:30,copies:50})
+{
+acknowledged: true,
+insertedId: ObjectId("6558ae4984707bc21d864499")
+}
+test> db.Book.insertOne({book_isbn:"ISBN003",title:"Digital
+Circuits",publisher_name:"Techomax",author:{name:"Chinmayee
+K",address:"Banglore,Karnataka",phone:{landline:"883-456-3545",mobile:"222-456-
+7890"}},publisher_city:"Mumbai",price:400,copies:150})
+{
+acknowledged: true,
+insertedId: ObjectId("6558aed384707bc21d86449a")
+}
+test> db.Book.insertOne({book_isbn:"ISBN004",title:"Winter
+Nights",publisher_name:"Magzine34",author:{name:"Ostwal P",address:"MG road
+111,Gujarat",phone:{landline:"993-456-3545",mobile:"892-456-
+7890"}},publisher_city:"Surat",price:1000.80,copies:80})
+{
+acknowledged: true,
+insertedId: ObjectId("6558af7084707bc21d86449b")
+}
+test> db.Book.insertOne({book_isbn:"ISBN005",title:"DarkWay
+1990",publisher_name:"Horizon",author:{name:"Sharma MP",address:"Chandi
+Chowk,Delhi",phone:{landline:"234-456-3545",mobile:"787-456-
+7890"}},publisher_city:"Alahabad",price:500.40,copies:45})
+{
+acknowledged: true,
+insertedId: ObjectId("6558b01d84707bc21d86449c")
+}
+To Show all inserted Records
+test> db.Book.find();
+[
+{
+_id: ObjectId("6558ac4384707bc21d864497"),
+book_isbn: 'ISBN001',
+title: 'The Great Gatsby',
+publisher_name: 'Random House',
+author: {
+name: 'F.Scott ',
+address: '123 Main St,Anytown',
+phone: { landline: '123-456-7890', mobile: '987-654-3210' }
+},
+publisher_city: 'New York',
+price: 20.99,
+copies: 100
+},
+{
+_id: ObjectId("6558acad84707bc21d864498"),
+book_isbn: 'ISBN001',
+title: 'The Great Gatsby',
+publisher_name: 'Random House',
+author: {
+name: 'F.Scott ',
+address: '123 Main St,Anytown',
+phone: { landline: '123-456-7890', mobile: '987-654-3210' }
+},
+publisher_city: 'New York',
+price: 20.99,
+copies: 100
+},
+{
+_id: ObjectId("6558ae4984707bc21d864499"),
+book_isbn: 'ISBN002',
+title: 'The Amazing Journey',
+publisher_name: 'Pearson',
+author: {
+name: 'Sayali S',
+address: 'Jalgaon,Maharashtra',
+phone: { landline: '673-456-3545', mobile: '123-456-7890' }
+},
+publisher_city: 'Pune',
+price: 30,
+copies: 50
+},
+{
+_id: ObjectId("6558aed384707bc21d86449a"),
+book_isbn: 'ISBN003',
+title: 'Digital Circuits',
+publisher_name: 'Techomax',
+author: {
+name: 'Chinmayee K',
+address: 'Banglore,Karnataka',
+phone: { landline: '883-456-3545', mobile: '222-456-7890' }
+},
+publisher_city: 'Mumbai',
+price: 400,
+copies: 150
+},
+{
+_id: ObjectId("6558af7084707bc21d86449b"),
+book_isbn: 'ISBN004',
+title: 'Winter Nights',
+publisher_name: 'Magzine34',
+author: {
+name: 'Ostwal P',
+address: 'MG road 111,Gujarat',
+phone: { landline: '993-456-3545', mobile: '892-456-7890' }
+},
+publisher_city: 'Surat',
+price: 1000.8,
+copies: 80
+},
+{
+_id: ObjectId("6558b01d84707bc21d86449c"),
+book_isbn: 'ISBN005',
+title: 'DarkWay 1990',
+publisher_name: 'Horizon',
+author: {
+name: 'Sharma MP',
+address: 'Chandi Chowk,Delhi',
+phone: { landline: '234-456-3545', mobile: '787-456-7890' }
+},
+publisher_city: 'Alahabad',
+price: 500.4,
+copies: 45
+}
+]
