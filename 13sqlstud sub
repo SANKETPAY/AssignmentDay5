@@ -1,0 +1,42 @@
+13.Create the following table :
+Student (roll-no, name, subject-name, subject-opted)
+Subject(faculty-code, faculty-name, specialization)
+(a) Create a form to accept the data from the user with appropriate validation
+checks.
+(b) Generate queries to do the following :
+(i) Find the number of students who have enrolled for the subject "DBMS".
+(ii) Find all those faculty members who have not offered any subject.
+-- Create Subject table
+CREATE TABLE Subject (
+faculty_code NUMBER PRIMARY KEY,
+faculty_name VARCHAR2(50),
+specialization VARCHAR2(50)
+);
+-- Create Student table
+CREATE TABLE Student (
+roll_no NUMBER PRIMARY KEY,
+name VARCHAR2(50),
+subject_name VARCHAR2(50),
+subject_opted VARCHAR2(50),
+CONSTRAINT fk_subject FOREIGN KEY (subject_opted) REFERENCES Subject(specialization)
+);
+-- Sample data for Subject
+INSERT INTO Subject VALUES (101, 'John Doe', 'Database Management');
+INSERT INTO Subject VALUES (102, 'Jane Smith', 'Software Engineering');
+INSERT INTO Subject VALUES (103, 'Bob Johnson', 'Artificial Intelligence');
+-- Sample data for Student
+INSERT INTO Student VALUES (1, 'Alice Brown', 'DBMS', 'Database Management');
+INSERT INTO Student VALUES (2, 'Charlie Green', 'Software Engineering', 'Software
+Engineering');
+INSERT INTO Student VALUES (3, 'David White', 'DBMS', 'Database Management');
+-- Query to find the number of students who have enrolled for the subject "DBMS"
+SELECT COUNT(*) AS num_students_dbms
+FROM Student
+WHERE subject_opted = 'Database Management';
+-- Query to find all faculty members who have not offered any subject
+SELECT *
+FROM Subject
+WHERE specialization NOT IN (
+SELECT subject_opted
+FROM Student
+);
