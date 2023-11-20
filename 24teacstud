@@ -1,0 +1,62 @@
+24. Consider following structure for MongoDB collections and write a query for following
+requirements in MongoDB
+Teachers(Tname, dno, experience, salary, date_of joining)
+Students(Sname, roll_no, class)
+i) Write a MongoDB query to create above collections & for insertion
+of some sample documents.
+ii) Find the information about all teachers of dno = 2 and having salary
+greater than or equal to 10,000/-
+iii) Find the student information having roll_no = 2 or Sname = Anil
+iv) Display Total no of Students of TE Class
+V) update salary as 5% increment of teacher whose experience is >10 years.
+// Create Teachers collection and insert sample documents
+db.createCollection("Teachers");
+db.Teachers.insert([
+{
+Tname: "John Doe",
+dno: 1,
+experience: 12,
+salary: 12000,
+date_of_joining: ISODate("2010-01-15")
+},
+{
+Tname: "Jane Smith",
+dno: 2,
+experience: 8,
+salary: 11000,
+date_of_joining: ISODate("2015-03-20")
+},
+// Insert other teacher documents similarly
+// ...
+]);
+// Create Students collection and insert sample documents
+db.createCollection("Students");
+db.Students.insert([
+{
+Sname: "Alice",
+roll_no: 1,
+class: "TE"
+},
+{
+Sname: "Bob",
+roll_no: 2,
+class: "TE"
+},
+// Insert other student documents similarly
+// ...
+]);
+ii) Find the information about all teachers of dno = 2 and
+having salary greater than or equal to 10,000/-
+db.Teachers.find({ dno: 2, salary: { $gte: 10000 } });
+iii) Find the student information having roll_no = 2 or Sname =
+Anil
+db.Students.find({ $or: [{ roll_no: 2 }, { Sname: "Anil" }] });
+iv) Display Total no of Students of TE Class
+db.Students.find({ class: "TE" }).count();
+v) Update salary as 5% increment of teachers whose experience
+is >10 years.
+db.Teachers.update(
+{ experience: { $gt: 10 } },
+{ $mul: { salary: 1.05 } },
+{ multi: true }
+);
