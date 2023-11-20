@@ -1,0 +1,28 @@
+25. Design a map-reduce operations on a collection “orders” that contains documents of the
+following prototype. Solve the following .
+{
+cust_id: "abc123",
+ord_date: new Date("Oct 04, 2012"),
+status: 'A',
+price: 25,
+gender :’F’,
+rating: 1
+}
+> db.customers.insert({cust_id:"Avani",ord_date:new Date("May
+09,2014"),status:'C',price:550,gender:'F',rating:5});
+>db.customers.insert({cust_id:"Adwait",ord_date:new Date("May
+09,2014"),status:'B',price:200,gender:'M',rating:4})
+a) Count the number of female (F) and male (M) respondents in the orders
+collection
+> var map=function(){var category; if(this.gender=='F') category="female"; else
+category="male"; emit(category,{cust_id:this.Cust_id})};
+> var reduce=function(key,values){var sum=0;
+values.forEach(function(doc){sum+=1;});return{count:sum};};
+> var count=db.customer.mapReduce(map,reduce,{out:"Gender count"});
+> db[count.result].find();
+{ "_id" : "female", "value" : { "count" : 2 } } { "_id" : "male", "value" : { "count" : 4 } }
+b) Count the number of each type of rating (1, 2, 3, 4 or 5) for each orders
+> var map=function(){emit(this.rating,1)};
+> var reduce=function(key,values){return Array.sum(values)};
+> db.customer.mapReduce(map,reduce,{out:"Result"});
+> db.Result.find();
