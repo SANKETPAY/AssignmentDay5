@@ -1,0 +1,90 @@
+8.Write a PL/SQL block of Stored Procedure and Stored Function proc_Grade for
+following problem statement.
+Write a Stored Procedure namely proc_Grade for the categorization of student. If marks
+scored by students in examination is <=1500 and marks>=990 then student will be placed
+in distinction category if marks scored are between 989 and 900 category is first class, if
+marks 899 and 825 category is Higher Second Class.
+SQL> create table marks(rollno number(10),name varchar2(20),sub1 number,sub2
+number,sub3 number);
+Table created
+SQL> insert into marks values(1,'Harshada',500,500,500);
+1 row created.
+SQL> insert into marks values(2,'mugdha',500,400,300);
+1 row created.
+SQL> insert into marks values(3,'vaibhavi',400,300,300);
+1 row created.
+SQL> insert into marks values(4,'shweta',200,300,400);
+1 row created.
+SQL> select * from marks;
+ROLLNO NAME SUB1 SUB2 SUB3
+---------- -------------------- ---------- ---------- ----------
+1 Harshada 500 500 500
+2 mugdha 500 400 300
+3 vaibhavi 400 300 300
+4 shweta 200 300 400
+SQL> create table stud_marks(rollno number(10),name varchar2(20),total_marks
+number(10));
+Table created.
+SQL> create table Result(rollno number(10),name varchar2(20),class varchar2(30));
+Table created.
+SQL>create procedure PROC_GRADE
+is
+sum number(20);
+i number(10);
+n number(10);
+rollnol number(10);
+namel varchar2(30);
+totall number(10);
+classl varchar2(30);
+s1 number;
+s2 number;
+s3 number;
+begin
+select count(*) into n from marks;
+i := 0;
+loop
+i:=i+1;
+select rollno into rollnol from marks where rollno=i;
+select name into namel from marks where rollno=i;
+select sub1 into s1 from marks where rollno=i;
+select sub2 into s2 from marks where rollno=i;
+select sub3 into s3 from marks where rollno=i;
+totall:=a1+s2+s3+s4+s5;
+if totall<=1500 AND totall>=990 then
+classl:='DISTINCTION';
+else
+if totall<=989 AND totall>=900 then
+classl:='FIRST CLASS';
+else
+if totall<899 AND totall>=825 then
+classl:='HIGER SECOND CLASS';
+else
+classl:='PASS CLASS';
+end if;
+end if;
+end if;
+insert into stud_marks values(rollnol,namel,totall);
+insert into result values(rollnol,namel,classl);
+if i=n then
+exit;
+end if;
+end loop;
+end;
+/
+SQL> execute PROC_GRADE;
+PL/SQL procedure successfully completed.
+SQL> select * from stud_marks;
+ROLLNO NAME TOTAL_MARKS
+---------- --------------- -----------
+1 Harshada 1500
+2 mugdha 1200
+3 vaibhavi 1000
+4 shweta 900
+SQL> select * from result;
+ROLLNO NAME CLASS
+---------- -------------------- ------------------------------
+1 Harshada DISTINCTION
+2 mugdha DISTINCTION
+3 vaibhavi DISTINCTION
+4 shweta FIRST CLASS
+SQL>
