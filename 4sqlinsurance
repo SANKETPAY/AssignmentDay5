@@ -1,0 +1,96 @@
+4.Consider insurance database with following schema :
+person(driver-id, name, address)
+car(license, model, year)
+accident (report - no, date, location)
+owns(driver-id,license)
+participated(driver-id,car,report-no,damage-amount)
+Write a query in SQL for following requirements :
+-- Create the Insurance Database
+CREATE DATABASE Insurance;
+-- Use the Insurance Database
+USE Insurance;
+-- Create the "person" Table
+CREATE TABLE person (
+driver_id INT PRIMARY KEY,
+name VARCHAR(255),
+address VARCHAR(255)
+);
+-- Create the "car" Table
+CREATE TABLE car (
+license VARCHAR(50) PRIMARY KEY,
+model VARCHAR(255),
+year INT
+);
+-- Create the "accident" Table
+CREATE TABLE accident (
+report_no INT PRIMARY KEY,
+date DATE,
+location VARCHAR(255)
+);
+-- Create the "owns" Table
+CREATE TABLE owns (
+driver_id INT,
+license VARCHAR(50),
+PRIMARY KEY (driver_id, license),
+FOREIGN KEY (driver_id) REFERENCES person(driver_id),
+FOREIGN KEY (license) REFERENCES car(license)
+);
+-- Create the "participated" Table
+CREATE TABLE participated (
+driver_id INT,
+car VARCHAR(50),
+report_no INT,
+damage_amount DECIMAL(10, 2),
+PRIMARY KEY (driver_id, car, report_no),
+FOREIGN KEY (driver_id) REFERENCES person(driver_id),
+FOREIGN KEY (car) REFERENCES car(license),
+FOREIGN KEY (report_no) REFERENCES accident(report_no)
+);
+-- Insert record 1
+INSERT INTO person VALUES (1, 'John Doe', 'Pune');
+INSERT INTO car VALUES ('XYZ123', 'Toyota', 2016);
+INSERT INTO accident VALUES (101, '2016-07-15', 'Intersection A');
+INSERT INTO owns VALUES (1, 'XYZ123');
+INSERT INTO participated VALUES (1, 'XYZ123', 101, 1500.00);
+-- Insert record 2
+INSERT INTO person VALUES (2, 'Alice Smith', 'Mumbai');
+INSERT INTO car VALUES ('ABC456', 'Honda', 2017);
+INSERT INTO accident VALUES (102, '2016-08-22', 'Highway B');
+INSERT INTO owns VALUES (2, 'ABC456');
+INSERT INTO participated VALUES (2, 'ABC456', 102, 2000.00);
+-- Insert record 3
+INSERT INTO person VALUES (3, 'Bob Johnson', 'Pune');
+INSERT INTO car VALUES ('DEF789', 'Ford', 2015);
+INSERT INTO accident VALUES (103, '2016-11-10', 'Street C');
+INSERT INTO owns VALUES (3, 'DEF789');
+INSERT INTO participated VALUES (3, 'DEF789', 103, 1200.00);
+-- Insert record 4
+INSERT INTO person VALUES (4, 'Anna Taylor', 'Mumbai');
+INSERT INTO car VALUES ('GHI123', 'Chevrolet', 2016);
+INSERT INTO accident VALUES (104, '2016-12-01', 'Intersection D');
+INSERT INTO owns VALUES (4, 'GHI123');
+INSERT INTO participated VALUES (4, 'GHI123', 104, 1800.00);
+-- Insert record 5
+INSERT INTO person VALUES (5, 'Alex Williams', 'Delhi');
+INSERT INTO car VALUES ('JKL456', 'Nissan', 2017);
+INSERT INTO accident VALUES (105, '2016-09-05', 'Street E');
+INSERT INTO owns VALUES (5, 'JKL456');
+INSERT INTO participated VALUES (5, 'JKL456', 105, 2500.00);
+i) Find the total no. of people who owned cars that were involved in accidents in
+2016.
+SELECT COUNT(DISTINCT p.driver_id) AS Total_People
+FROM person p
+JOIN owns o ON p.driver_id = o.driver_id
+JOIN participated pa ON o.license = pa.car
+JOIN accident a ON pa.report_no = a.report_no
+WHERE YEAR(a.date) = 2016;
+ii) Retrieve the name of person whose address contains Pune.
+SELECT name
+FROM person
+WHERE address LIKE '%Pune%';
+iii) Find the name of persons having more than two cars.
+SELECT p.name
+FROM person p
+JOIN owns o ON p.driver_id = o.driver_id
+GROUP BY p.driver_id, p.name
+HAVING COUNT(o.license) > 2;
