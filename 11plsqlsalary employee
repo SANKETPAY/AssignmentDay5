@@ -1,0 +1,38 @@
+11. The organization has decided to increase the salary of employees by 10% of existing
+salary, whose existing salary is less than Rs. 10000/-
+Write a PL/SQ block to update the salary as per above requirement, display an appropriate
+message based on the no. of rows affected by this update (using implicit cursor status
+variables).
+-- Assuming you have an Employee table with columns EmployeeID, Name, Salary
+-- Create a sample Employee table
+CREATE TABLE Employee (
+EmployeeID NUMBER,
+Name VARCHAR2(50),
+Salary NUMBER
+);
+-- Insert some sample records into Employee table
+INSERT INTO Employee VALUES (1, 'John Doe', 8000);
+INSERT INTO Employee VALUES (2, 'Jane Smith', 12000);
+INSERT INTO Employee VALUES (3, 'Bob Johnson', 9500);
+INSERT INTO Employee VALUES (4, 'Alice Brown', 11000);
+-- PL/SQL block to update salary and display message
+DECLARE
+v_rows_affected NUMBER;
+BEGIN
+-- Update salary for employees with existing salary less than Rs. 10000
+UPDATE Employee
+SET Salary = Salary + (Salary * 0.10)
+WHERE Salary < 10000;
+-- Get the number of rows affected by the update
+v_rows_affected := SQL%ROWCOUNT;
+-- Display appropriate message based on the number of rows affected
+IF v_rows_affected = 0 THEN
+DBMS_OUTPUT.PUT_LINE('No employees with salary less than Rs. 10000 were found.');
+ELSE
+DBMS_OUTPUT.PUT_LINE(v_rows_affected || ' employee(s) have had their salary increased by
+10%.');
+END IF;
+-- Commit the transaction
+COMMIT;
+END;
+/
